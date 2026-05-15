@@ -3,6 +3,7 @@
 Write a simple Python program for the modulation and demodulation of PCM, and DM.
 # Tools required
 # Program
+##PCM
 ```
 import numpy as np
 import matplotlib.pyplot as plt
@@ -26,13 +27,49 @@ plt.subplot(4,1,4); plt.plot(t,q_msg,'--'); plt.title("PCM Demodulation"); plt.g
 plt.tight_layout()
 plt.show()
 ```
+##DM
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import butter, filtfilt
+
+fs, f, T, d = 10000, 10, 1, 0.1
+t = np.arange(0, T, 1/fs)
+msg = np.sin(2*np.pi*f*t)
+
+dm, bits = [0], []
+for s in msg:
+    step = d if s > dm[-1] else -d
+    bits.append(step > 0)
+    dm.append(dm[-1] + step)
+
+demod = np.cumsum([0] + [d if b else -d for b in bits])
+b, a = butter(4, 20/(0.5*fs))
+filt = filtfilt(b, a, demod)
+
+plt.figure(figsize=(10,6))
+plt.subplot(311); plt.plot(t,msg); plt.title("Original"); plt.grid()
+plt.subplot(312); plt.step(t,dm[:-1],where='mid'); plt.title("DM Signal"); plt.grid()
+plt.subplot(313); plt.plot(t,filt[:-1],'r:'); plt.title("Demodulated"); plt.grid()
+
+plt.tight_layout()
+plt.show()
+```
+
 # Output Waveform
 
+
 <img width="990" height="790" alt="image" src="https://github.com/user-attachments/assets/14f71f6c-58e3-4ab5-8c45-bc3c3589cbb2" />
+
+<img width="990" height="590" alt="image" src="https://github.com/user-attachments/assets/5a04d29a-e66e-410a-965b-74fd97efe934" />
+
 
 
 # Results
 
 <img width="990" height="790" alt="image" src="https://github.com/user-attachments/assets/b018f516-5154-43a2-8e38-e852d71abd0c" />
+
+<img width="990" height="590" alt="image" src="https://github.com/user-attachments/assets/0fce80da-0794-43ea-83d2-c7dd18658796" />
+
 
 # Hardware experiment output waveform.
