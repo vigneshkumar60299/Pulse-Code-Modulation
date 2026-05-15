@@ -3,7 +3,7 @@
 Write a simple Python program for the modulation and demodulation of PCM, and DM.
 # Tools required
 # Program
-#PCM
+## PCM
 ```
 import numpy as np
 import matplotlib.pyplot as plt
@@ -27,7 +27,7 @@ plt.subplot(4,1,4); plt.plot(t,q_msg,'--'); plt.title("PCM Demodulation"); plt.g
 plt.tight_layout()
 plt.show()
 ```
-#DM
+## DM
 ```
 import numpy as np
 import matplotlib.pyplot as plt
